@@ -1,4 +1,3 @@
-import cv2
 import pytesseract
 
 
@@ -17,7 +16,7 @@ def read(im):
     for c in configs:
         text = pytesseract.image_to_string(im, config=c)
         results.append([text.lower(), c])
-    print(results)
+        print(text,"  ::  ", c)
     return results
 
 

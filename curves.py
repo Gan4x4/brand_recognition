@@ -1,18 +1,8 @@
 import cv2
 import numpy as np
 import pytesseract
-
-# dilation
-def dilate(image):
-    kernel = np.ones((3, 3), np.uint8)
-    return cv2.dilate(image, kernel, iterations=1)
-
-
-# erosion
-def erode(image):
-    kernel = np.ones((3, 3), np.uint8)
-    return cv2.erode(image, kernel, iterations=1)
-
+from utils import erode, dilate
+import tesseract
 
 def preprocess(im):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -63,10 +53,6 @@ def character_recognition(im):
 img = cv2.imread("data/rotated.jpeg")
 prepared = preprocess(img)
 prepared = cv2.bitwise_not(prepared)
-config = '-l eng --oem 3 --psm 7 --user-words data/brands.txt'
-for i in [7,8]:
-    config = f'-l eng --oem 3 --psm {i} --user-words data/brands.txt'
-    text = pytesseract.image_to_string(prepared, config=config)
-    print(i,text)
+tesseract.read(prepared)
 cv2.imshow('thresh', prepared)
 cv2.waitKey(0)
